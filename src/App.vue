@@ -1,13 +1,27 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
+<script>
+//import finder from '../utils/finder.js';
+export default {
+  name: 'App',
+  // created() {
+  //   let dest = finder.findMetaByName(document.head.querySelectorAll('meta'), 'viewport');
+  //   dest.content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no';
+  // }
+  metaInfo: {
+    title: '首页',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' }
+    ]
+  }
+
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
