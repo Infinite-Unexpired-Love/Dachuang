@@ -1,19 +1,24 @@
 <template>
     <div>
         <h1 class="h1">登录</h1>
-        <van-cell-group>
-            <van-field value="用户名" class="iconfont uname input" />
-            <van-field value="密码" class="iconfont upass input" />
-        </van-cell-group>
+        <form action="">
+            <div class="inp uname iconfont">
+                <input type="text" value="用户名">
+            </div>
+            <div class="inp upass iconfont">
+                <input type="text" value="密码">
+            </div>
+
+        </form>
     </div>
 </template>
 
 <script>
-import { Field } from 'vant';
+import { Button } from 'vant';
 export default {
     name: 'Login',
     components: {
-        [Field.name]: Field,
+        [Button.name]: Button,
     }
 }
 </script>
@@ -28,26 +33,45 @@ export default {
     font-weight: normal;
 }
 
-.input::before {
+form {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 140px;
+}
+
+.inp {
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-sizing: content-box;
+}
+
+.inp::before {
     content: "";
     width: 60px;
     height: 60px;
-    margin-right: 6px;
     line-height: 60px;
     text-align: center;
     font-size: 24px;
 }
 
-.input {
-    padding: 0;
-    width: 70%;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 18px;
+.inp::after {
+    content: "";
+    width: 60px;
+    height: 60px;
     line-height: 60px;
-    color: #000;
+    text-align: center;
+    font-size: 24px;
+}
+
+.inp input {
+    border: 0;
+    flex: 1;
 }
 
 .uname::before {
@@ -59,11 +83,6 @@ export default {
 }
 
 .upass::after {
-    content: "\e621";
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-    font-size: 24px;
+    content: '\e749';
 }
 </style>
