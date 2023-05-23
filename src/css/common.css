@@ -4,6 +4,23 @@
     margin: 0 0;
     /*点击高亮我们需要清除清除 设置为transparent 完成透明*/
     -webkit-tap-highlight-color: transparent;
+
+    -webkit-touch-callout: none;
+    /*系统默认菜单被禁用;可以实现页面因为长按弹出各种操作窗口*/
+
+    -webkit-user-select: none;
+    /*webkit浏览器*/
+
+    -khtml-user-select: none;
+    /*早期浏览器*/
+
+    -moz-user-select: none;
+    /*火狐*/
+
+    -ms-user-select: none;
+    /*IE10*/
+
+    user-select: none;
 }
 
 html {
@@ -14,9 +31,10 @@ html {
 }
 
 body {
+    overflow: hidden;
     margin: 0 auto;
     min-width: 320px;
-    max-width: 640px;
+    max-width: 960px;
     background: #fff;
     /* 对字体进行抗锯齿渲染可以使字体看起来会更清晰舒服。 */
     -webkit-font-smoothing: antialiased;
@@ -67,12 +85,6 @@ div {
     clear: right;
 }
 
-img,
-a {
-    /*禁用长按页面时的弹出菜单*/
-    -webkit-touch-callout: none;
-}
-
 a {
     text-decoration: none;
 }
@@ -109,4 +121,9 @@ ul li {
 /*布局*/
 .layout {
     width: 100%;
+}
+
+input {
+    width: 0;
+    border: 0;
 }

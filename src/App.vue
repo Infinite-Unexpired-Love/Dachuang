@@ -8,10 +8,6 @@
 //import finder from '../utils/finder.js';
 export default {
   name: 'App',
-  // created() {
-  //   let dest = finder.findMetaByName(document.head.querySelectorAll('meta'), 'viewport');
-  //   dest.content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no';
-  // }
   metaInfo: {
     title: '首页',
     meta: [
