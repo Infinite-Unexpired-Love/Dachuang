@@ -8,18 +8,14 @@
             <div class="inp upass iconfont">
                 <input type="text" value="密码">
             </div>
-
+            <button>登录</button>
         </form>
     </div>
 </template>
 
 <script>
-import { Button } from 'vant';
 export default {
     name: 'Login',
-    components: {
-        [Button.name]: Button,
-    }
 }
 </script>
 
@@ -53,8 +49,9 @@ form {
 
 .inp::before {
     content: "";
-    width: 60px;
-    height: 60px;
+    /* width: 60px;
+    height: 60px; */
+    flex: 1;
     line-height: 60px;
     text-align: center;
     font-size: 24px;
@@ -62,8 +59,9 @@ form {
 
 .inp::after {
     content: "";
-    width: 60px;
-    height: 60px;
+    /* width: 60px;
+    height: 60px; */
+    flex: 1;
     line-height: 60px;
     text-align: center;
     font-size: 24px;
@@ -84,5 +82,15 @@ form {
 
 .upass::after {
     content: '\e749';
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    margin-top: 40px;
+    border: 0;
+    border-radius: 20px;
+    color: #fff;
+    background: blue;
 }
 </style>
