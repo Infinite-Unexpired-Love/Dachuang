@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4078444 */
-  src: url('iconfont.woff2?t=1684634350671') format('woff2'),
-       url('iconfont.woff?t=1684634350671') format('woff'),
-       url('iconfont.ttf?t=1684634350671') format('truetype');
+  src: url('iconfont.woff2?t=1684817623796') format('woff2'),
+       url('iconfont.woff?t=1684817623796') format('woff'),
+       url('iconfont.ttf?t=1684817623796') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,42 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-signing:before {
+  content: "\e60c";
+}
+
+.icon-weatherlightning1183114easyiconnet:before {
+  content: "\e666";
+}
+
+.icon-contacts-solid:before {
+  content: "\e6a8";
+}
+
+.icon-home-fill:before {
+  content: "\e867";
+}
+
+.icon-search:before {
+  content: "\e741";
+}
+
+.icon-icon-test:before {
+  content: "\e635";
+}
+
+.icon-icon_other_services:before {
+  content: "\e601";
+}
+
+.icon-fire-Fill:before {
+  content: "\e8da";
+}
+
+.icon-scan:before {
+  content: "\e840";
 }
 
 .icon-user-fill:before {

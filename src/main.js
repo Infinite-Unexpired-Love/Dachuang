@@ -5,6 +5,7 @@ import store from './store'
 import Meta from 'vue-meta'
 import 'vant/lib/index.css';
 import '@/css/common.css';
+import '@/css/font/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(Meta);
