@@ -18,9 +18,7 @@
 <script>
 export default {
     name: 'Login',
-    components: {
-        [Button.name]: Button,
-    },
+
     data() {
         return {
             uname: "用户名",
@@ -28,12 +26,7 @@ export default {
         }
     },
     methods: {
-        setUname() {
-            this.uname = this.uname == '用户名' ? '' : this.uname;
-        },
-        setUpass() {
-            this.upass = this.upass == '密码' ? '' : this.upass;
-        }
+
     }
 }
 </script>

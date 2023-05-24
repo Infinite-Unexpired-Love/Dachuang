@@ -1,11 +1,11 @@
 <template>
     <div class="unit">
-        <div class="info" style="background: #fff;">
-            <div>
+        <div class="info" :style="unitStyle">
+            <div style="width: 100px;padding: 8px 0 0 8px;">
                 <div class="effect">效益<i>{{ effect }}</i></div>
                 <div class="remain">剩余功率<i>{{ remain }}%</i></div>
                 <div class="price">
-                    <div class="rmb">￥{{ price }}</div>
+                    价格<div class="rmb">￥{{ price }}</div>
                 </div>
             </div>
         </div>
@@ -18,23 +18,20 @@ import { computed } from 'vue';
 export default {
     name: 'Unit',
     props: {
-        effect: Number,
-        remain: Number,
-        price: Number,
-        width: Number,
-    },
-    computed: {
-        getHeight() {
-            return this.width * 0.9;
+        effect: String,
+        remain: String,
+        price: String,
+        unitStyle: {
+            background: String,
+            width: String,
+            height: String,
         }
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
 .unit {
-    height: 86px;
-    width: 188px;
 
     .info {
         display: flex;
@@ -44,35 +41,49 @@ export default {
         border-radius: 8px;
 
         .effect {
-            margin-left: 6px;
+            margin-bottom: 2px;
             height: 18px;
             line-height: 18px;
-            font-size: 18px;
+            font-size: 16px;
+
+            i {
+                margin-left: 10px;
+            }
         }
 
         .remain {
-            margin-left: 6px;
+            margin-bottom: 6px;
             height: 16px;
             line-height: 16px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: visible;
         }
 
         .price {
-            margin-left: 4px;
+            display: flex;
+            align-items: center;
             height: 24px;
             line-height: 24px;
-            font-size: 18px;
+            font-size: 16px;
+        }
+
+        .price::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #000;
         }
     }
 
     .info::before {
         content: "";
-        height: 82px;
-        width: 88px;
+        flex: 1;
         background: url('../assets/unit.png');
-        background-size: contain;
+        background-size: cover;
         border-radius: 8px;
+        box-sizing: border-box;
     }
 }
 </style>

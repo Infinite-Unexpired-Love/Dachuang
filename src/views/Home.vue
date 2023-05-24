@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" ref="wrapper">
         <div class="utils">
             <section class="row1">
                 <div class="row1-before iconfont">&#xe840;</div>
@@ -42,11 +42,18 @@
             <div class="crush">
                 <div class="head iconfont">&nbsp;最佳匹配</div>
                 <div class="content">
-                    <Unit effect=53 remain=100 price=0.46></Unit>
-                    <Unit effect=53 remain=100 price=0.46></Unit>
+                    <Unit effect=53 remain=100 price=0.46 :unitStyle="unitStyle"></Unit>
+                    <Unit effect=53 remain=100 price=0.46 :unitStyle="unitStyle"></Unit>
                 </div>
             </div>
             <div class="stripe"></div>
+        </div>
+        <div class="wares">
+            <ul>
+                <v-for>
+                    <li></li>
+                </v-for>
+            </ul>
         </div>
         <Footer seleted=1></Footer>
     </div>
@@ -68,7 +75,14 @@ export default {
             bannerStyle: {
                 height: '',
                 //backgroundSize:'',
-            }
+            },
+            unitStyle: {
+                width: '0',
+                height: '0',
+                background: '#fff'
+            },
+            pageNum: 1,
+            perWares: 20,
         }
     },
     methods: {
@@ -79,6 +93,9 @@ export default {
     mounted() {
         this.bannerStyle.height = this.$refs.banner.clientWidth / 3.32 + 'px';
         //this.bannerStyle.backgroundSize=
+        let width = this.$refs.wrapper.clientWidth * 0.48;
+        this.unitStyle.width = width + 'px';
+        this.unitStyle.height = width * 0.45 + 'px';
     }
 }
 </script>
@@ -375,6 +392,7 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                overflow: hidden;
             }
         }
     }
