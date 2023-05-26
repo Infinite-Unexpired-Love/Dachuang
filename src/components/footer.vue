@@ -1,25 +1,35 @@
 <template>
     <footer>
-        <div class="iconfont" :class="{ 'selected': seleted == 1 }">&#xe867;</div>
-        <div class="iconfont" :class="{ 'selected': seleted == 2 }">&#xe635;</div>
+        <div class="iconfont" :class="{ 'selected': seleted == 1 }"><router-link to="/home">&#xe867;</router-link></div>
+        <div class="iconfont" :class="{ 'selected': seleted == 2 }"><router-link to="/message">&#xe635;</router-link></div>
         <div class="iconfont" :class="{ 'selected': seleted == 3 }">&#xe666;</div>
-        <div class="iconfont" :class="{ 'selected': seleted == 4 }">&#xe6a8;</div>
+        <div class="iconfont" :class="{ 'selected': seleted == 4 }"><router-link to="/ucenter">&#xe6a8;</router-link></div>
     </footer>
 </template>
 
 <script>
-export default {
-    name: 'Footer',
-    props: {
-        seleted: Number,
+import router from '@/router';
 
-    }
+export default {
+    name: "Footer",
+    props: {
+        seleted: String,
+    },
+    components: { router }
 }
 </script>
 
 <style scoped lang="scss">
+.iconfont {
+    a {
+        color: #000;
+    }
+}
+
 .selected {
-    color: #25bc68;
+    a {
+        color: #25bc68 !important;
+    }
 }
 
 footer {
@@ -32,6 +42,8 @@ footer {
     justify-content: space-between;
     box-sizing: border-box;
     padding: 0 20px;
+    background: #fff;
+    box-shadow: 0 1px 4px #ccc;
 
     div {
         height: 40px;

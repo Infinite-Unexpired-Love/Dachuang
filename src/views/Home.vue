@@ -1,14 +1,7 @@
 <template>
     <div class="wrapper" ref="wrapper">
         <div class="utils">
-            <section class="row1">
-                <div class="row1-before iconfont">&#xe840;</div>
-                <div class="inp">
-                    <input type="text" placeholder="请输入关键字" class="input">
-                    <div class="inp-after iconfont">&#xe741;</div>
-                </div>
-                <div class="row1-after iconfont">&#xe601;</div>
-            </section>
+            <Header></Header>
             <section class="row2">
                 <div class="configure">
                     <div class="user iconfont">&#xe7d5;</div>
@@ -49,29 +42,34 @@
             <div class="stripe"></div>
         </div>
         <div class="wares">
-            <ul>
-                <v-for>
-                    <li></li>
-                </v-for>
+            <ul style="display: flex;flex-wrap: wrap;justify-content: space-around;">
+                <li v-for="(item, index) in wareDatas[pageNum]" :key="index" style="margin-top: 10px;">
+                    <Unit :effect="item.effect" :remain="item.remain" :price="item.price" :unitStyle="unitStyle"></Unit>
+                </li>
             </ul>
+
         </div>
+        <div style="width: 100%;height: 66px;"></div>
         <Footer seleted=1></Footer>
     </div>
 </template>
 
 <script>
+import Header from '@/components/header.vue';
 import Footer from '@/components/footer.vue';
 import Unit from '@/components/unit.vue';
 export default {
     components: {
+        Header,
         Footer,
-        Unit
+        Unit,
     },
     data() {
         return {
             max: 0,
             min: -750,
             selected: 1,
+            clientWidth: 0,
             bannerStyle: {
                 height: '',
                 //backgroundSize:'',
@@ -81,8 +79,42 @@ export default {
                 height: '0',
                 background: '#fff'
             },
-            pageNum: 1,
-            perWares: 20,
+            pageNum: 0,
+            perWares: 10,
+            wareDatas: [
+                [
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                    {
+                        effect: 53, remain: 100, price: 0.46,
+                    },
+                ]
+            ],
         }
     },
     methods: {
@@ -93,9 +125,22 @@ export default {
     mounted() {
         this.bannerStyle.height = this.$refs.banner.clientWidth / 3.32 + 'px';
         //this.bannerStyle.backgroundSize=
-        let width = this.$refs.wrapper.clientWidth * 0.48;
+        window.addEventListener('resize', () => {
+            this.clientWidth = document.body.clientWidth;
+        })
+        //let width = this.$refs.wrapper.clientWidth * 0.48;
+        this.clientWidth = this.$refs.wrapper.clientWidth;
+        let width = this.clientWidth * 0.48;
         this.unitStyle.width = width + 'px';
         this.unitStyle.height = width * 0.45 + 'px';
+    },
+    watch: {
+        clientWidth(newval) {
+            let width = newval * 0.48;
+            this.unitStyle.width = width + 'px';
+            this.unitStyle.height = width * 0.45 + 'px';
+            this.bannerStyle.height = this.$refs.banner.clientWidth / 3.32 + 'px';
+        }
     }
 }
 </script>
@@ -107,79 +152,14 @@ export default {
 
 .wrapper {
     width: 100%;
-    height: 100vh;
+    height: 100%;
 
     .utils {
         flex-direction: column;
         padding-top: 5vh;
         background: linear-gradient(#5bc6a3, 70%, #e3f0e6);
 
-        .row1 {
-            display: flex;
-            height: 32px;
-            padding: 0 10px;
 
-            .row1-before {
-                width: 32px;
-                height: 32px;
-                line-height: 32px;
-                text-align: center;
-                color: #fff;
-                font-size: 28px;
-            }
-
-            .inp {
-                flex: 1;
-                display: flex;
-                border-radius: 16px;
-                background: #a8e5d1;
-                padding-left: 16px;
-                margin: 0 5px;
-
-                .input {
-                    flex: 1;
-                    background: rgba(#a8e5d1, 0);
-                }
-
-                .input::-webkit-input-placeholder {
-                    /* WebKit browsers，webkit内核浏览器 */
-                    color: #e1f6ef;
-                }
-
-                .input:-moz-placeholder {
-                    /* Mozilla Firefox 4 to 18 */
-                    color: #e1f6ef;
-                }
-
-                .input::-moz-placeholder {
-                    /* Mozilla Firefox 19+ */
-                    color: #e1f6ef;
-                }
-
-                .input:-ms-input-placeholder {
-                    /* Internet Explorer 10+ */
-                    color: #e1f6ef;
-                }
-
-                .inp-after {
-                    width: 32px;
-                    height: 32px;
-                    line-height: 32px;
-                    text-align: center;
-                    color: #fff;
-                    font-size: 24px;
-                }
-            }
-
-            .row1-after {
-                width: 32px;
-                height: 32px;
-                line-height: 32px;
-                text-align: center;
-                color: #fff;
-                font-size: 28px;
-            }
-        }
 
         .row2 {
             margin-top: 10px;
@@ -385,16 +365,27 @@ export default {
                 line-height: 20px;
                 font-size: 20px;
                 color: #fff;
+                margin-bottom: 10px;
             }
 
             .content {
-                height: 100px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 overflow: hidden;
+                margin-bottom: 10px;
             }
         }
     }
+
+    .wares::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+    }
+}
+
+.wrapper::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
 }
 </style>

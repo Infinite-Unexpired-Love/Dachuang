@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "34605851",
+      "name": "关怀模式",
+      "font_class": "guanhuaimoshi",
+      "unicode": "eb38",
+      "unicode_decimal": 60216
+    },
+    {
+      "icon_id": "5724131",
+      "name": "v",
+      "font_class": "v",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "1898678",
+      "name": "database",
+      "font_class": "database",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "8741370",
+      "name": "database",
+      "font_class": "shujuku",
+      "unicode": "e78c",
+      "unicode_decimal": 59276
+    },
+    {
       "icon_id": "9843542",
       "name": "signing",
       "font_class": "signing",
