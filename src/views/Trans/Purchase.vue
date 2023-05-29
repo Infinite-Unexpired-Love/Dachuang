@@ -14,8 +14,8 @@
         <div class="buy">
             <a href="javascript:0">申请协商修改</a>
             <div class="conform">
-                <div class="price">￥<input type="text"></div>
-                <div class="trans">kw/h<input type="text"></div>
+                <div class="price">￥<input type="text" @focus="prevent"></div>
+                <div class="trans">kw/h<input type="text" @focus="prevent"></div>
             </div>
             <button>支付</button>
         </div>
@@ -44,6 +44,11 @@ export default {
                 total: 180,
                 remain: 180,
             }
+        }
+    },
+    methods: {
+        prevent() {
+            document.activeElement.blur();
         }
     }
 }

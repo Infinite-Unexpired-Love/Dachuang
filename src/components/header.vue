@@ -1,7 +1,7 @@
 <template>
     <section class="header">
         <div class="row1-before iconfont">
-            <router-link to="/home" v-if="needScan">&#xe840;</router-link>
+            <span v-if="needScan" @click="scanCode">&#xe840;</span>
             <router-link :to="backUrl" v-if="!needScan">&#xe66f;</router-link>
         </div>
         <div class="inp" v-if="!cancel">
@@ -25,7 +25,15 @@ export default {
         cancel: String,
         backUrl: String,
     },
-    components: { router }
+    components: { router },
+    methods: {
+        scanCode() {
+            console.log('浏览器信息' + navigator.userAgent);
+            this.$router.push({
+                path: '/scan'
+            });
+        }
+    }
 }
 
 </script>

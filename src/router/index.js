@@ -8,6 +8,7 @@ import History from '../views/Ucenter/History.vue'
 import Post from '../views/Trans/Post.vue'
 import Purchase from '../views/Trans/Purchase.vue'
 import Sell from '../views/Trans/Sell.vue'
+import Scan from '../views/Scan/Scan.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -72,7 +73,15 @@ const routes = [
     name: 'Sell',
     component: Sell,
     meta: {
-      title: '出售电力'
+      title: '出售电力',
+    }
+  },
+  {
+    path: '/scan',
+    name: 'Scan',
+    component: Scan,
+    meta: {
+      title: '扫码页面',
     }
   }
   // {

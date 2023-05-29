@@ -19,8 +19,8 @@
             </div>
             <h4>确认修改</h4>
             <div class="conform">
-                <div class="price">￥<input type="text"></div>
-                <div class="trans">kw/h<input type="text"></div>
+                <div class="price">￥<input type="text" @focus="prevent"></div>
+                <div class="trans">kw/h<input type="text" @focus="prevent"></div>
             </div>
         </div>
         <div class="compensate"></div>
@@ -52,6 +52,11 @@ export default {
                 buy: 100
 
             }
+        }
+    },
+    methods: {
+        prevent() {
+            document.activeElement.blur();
         }
     }
 }
