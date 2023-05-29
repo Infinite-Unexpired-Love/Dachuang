@@ -3,7 +3,7 @@
 
         <div class="ball"></div>
         <div class="row">
-            <Header></Header>
+            <Header need-scan="1"></Header>
         </div>
         <div class="messages">
             <ul>
@@ -52,21 +52,7 @@ export default {
             ],
         }
     },
-    // mounted() {
-    //     this.clientWidth = document.body.clientWidth;
-    //     console.log(this.clientWidth);
-    //     window.addEventListener('resize', () => {
-    //         this.clientWidth = document.body.clientWidth;
-    //     });
-    //     this.ballStyle.width = this.clientWidth * 2 + 'px';
-    //     this.ballStyle.height = this.clientWidth * 2 + 'px';
-    // },
-    // watch: {
-    //     clientWidth(newval) {
-    //         this.ballStyle.width = newval * 2 + 'px';
-    //         this.ballStyle.height = newval * 2 + 'px';
-    //     }
-    // }
+
 }
 </script>
 

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Home from '../views/Home.vue'
-import Message from '../views/Message.vue'
-import Ucenter from '../views/Ucenter.vue'
+import Login from '../views/Login/Login.vue'
+import Home from '../views/Home/Home.vue'
+import Message from '../views/Message/Message.vue'
+import Ucenter from '../views/Ucenter/Ucenter.vue'
+import History from '../views/Ucenter/History.vue'
+import Post from '../views/Trans/Post.vue'
+import Purchase from '../views/Trans/Purchase.vue'
+import Sell from '../views/Trans/Sell.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +41,38 @@ const routes = [
     component: Ucenter,
     meta: {
       title: '用户中心',
+    }
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: History,
+    meta: {
+      title: '历史订单',
+    }
+  },
+  {
+    path: '/post',
+    name: 'Post',
+    component: Post,
+    meta: {
+      title: '发布售电信息',
+    }
+  },
+  {
+    path: '/purchase',
+    name: 'Purchase',
+    component: Purchase,
+    meta: {
+      title: '购买电力',
+    }
+  },
+  {
+    path: '/sell',
+    name: 'Sell',
+    component: Sell,
+    meta: {
+      title: '出售电力'
     }
   }
   // {

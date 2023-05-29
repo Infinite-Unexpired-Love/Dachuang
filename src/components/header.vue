@@ -1,25 +1,40 @@
 <template>
-    <section class="row1">
-        <div class="row1-before iconfont">&#xe840;</div>
-        <div class="inp">
+    <section class="header">
+        <div class="row1-before iconfont">
+            <router-link to="/home" v-if="needScan">&#xe840;</router-link>
+            <router-link :to="backUrl" v-if="!needScan">&#xe66f;</router-link>
+        </div>
+        <div class="inp" v-if="!cancel">
             <input type="text" placeholder="请输入关键字" class="input">
             <div class="inp-after iconfont">&#xe741;</div>
         </div>
-        <div class="row1-after iconfont">&#xe601;</div>
+        <div class="row1-after iconfont">
+            <router-link to="home" v-if="needScan">&#xe601;</router-link>
+            <div class="cancel" v-if="cancel">取消订单</div>
+        </div>
     </section>
 </template>
 
 <script>
+import router from '@/router';
+
 export default {
-    name: 'Header',
+    name: "Header",
+    props: {
+        needScan: String,
+        cancel: String,
+        backUrl: String,
+    },
+    components: { router }
 }
 
 </script>
 
 <style scoped lang="scss">
-.row1 {
+.header {
     display: flex;
-    height: 32px;
+    justify-content: space-between;
+    min-height: 32px;
     padding: 0 10px;
     box-sizing: border-box;
 
@@ -30,6 +45,10 @@ export default {
         text-align: center;
         color: #fff;
         font-size: 28px;
+
+        a {
+            color: #fff !important;
+        }
     }
 
     .inp {
@@ -76,12 +95,25 @@ export default {
     }
 
     .row1-after {
-        width: 32px;
-        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
         line-height: 32px;
         text-align: center;
         color: #fff;
         font-size: 28px;
+
+        a {
+            color: #fff !important;
+        }
+
+        .cancel {
+            background: #fff;
+            padding: 0 6px;
+            border-radius: 6px;
+            color: #757474;
+            font-size: 14px;
+            font-weight: 700;
+        }
     }
 }
 </style>

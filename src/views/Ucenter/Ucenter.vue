@@ -14,10 +14,12 @@
         </div>
         <div class="utils">
             <div class="row1">
-                <Square text="待付款" style="background: linear-gradient(to top right,#ff7c2b,#ff9f46);"></Square>
-                <Square text="待评价" style="background: linear-gradient(to top right,#2b71fe,#43a6ff);"></Square>
-                <Square text="历史订单" style="background: linear-gradient(to top right,#29f4f5,#88fb95);"></Square>
-                <Square :text="getWealth" style="background:linear-gradient(to top right,#b6325f,#f27877);"></Square>
+                <Square text="待付款" url="/" style="background: linear-gradient(to top right,#ff7c2b,#ff9f46);"></Square>
+                <Square text="待评价" url="/" style="background: linear-gradient(to top right,#2b71fe,#43a6ff);"></Square>
+                <Square text="历史订单" url="/history" style="background: linear-gradient(to top right,#29f4f5,#88fb95);">
+                </Square>
+                <Square :text="getWealth" url="/" style="background:linear-gradient(to top right,#b6325f,#f27877);">
+                </Square>
             </div>
             <div class="line2 iconfont">
                 <span>关怀模式</span>
@@ -48,7 +50,7 @@ export default {
     data() {
         return {
             userInfo: {
-                headshotUrl: require('../assets/headshot.png'),
+                headshotUrl: require('@/assets/headshot.png'),
                 uname: 'Seller1',
                 remainSum: 43,
             }

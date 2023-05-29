@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper" ref="wrapper">
         <div class="utils">
-            <Header></Header>
+            <Header need-scan="1"></Header>
             <section class="row2">
                 <div class="configure">
                     <div class="user iconfont">&#xe7d5;</div>
@@ -35,15 +35,17 @@
             <div class="crush">
                 <div class="head iconfont">&nbsp;最佳匹配</div>
                 <div class="content">
-                    <Unit effect=53 remain=100 price=0.46 :unitStyle="unitStyle"></Unit>
-                    <Unit effect=53 remain=100 price=0.46 :unitStyle="unitStyle"></Unit>
+                    <Unit :effect="bestMatchDatas[0].effect" :remain="bestMatchDatas[0].remain"
+                        :price="bestMatchDatas[0].price" :unitStyle="unitStyle"></Unit>
+                    <Unit :effect="bestMatchDatas[1].effect" :remain="bestMatchDatas[1].remain"
+                        :price="bestMatchDatas[1].price" :unitStyle="unitStyle"></Unit>
                 </div>
             </div>
             <div class="stripe"></div>
         </div>
         <div class="wares">
             <ul style="display: flex;flex-wrap: wrap;justify-content: space-around;">
-                <li v-for="(item, index) in wareDatas[pageNum]" :key="index" style="margin-top: 10px;">
+                <li v-for="(item, index) in wareDatas[pageNum]" :key="index" style="margin-top: 10px;" @click="toBuy">
                     <Unit :effect="item.effect" :remain="item.remain" :price="item.price" :unitStyle="unitStyle"></Unit>
                 </li>
             </ul>
@@ -115,11 +117,22 @@ export default {
                     },
                 ]
             ],
+            bestMatchDatas: [
+                {
+                    effect: 53, remain: 100, price: 0.46,
+                },
+                {
+                    effect: 53, remain: 100, price: 0.46,
+                },
+            ]
         }
     },
     methods: {
         toggle(e) {
             this.selected = e.target.getAttribute('data-id');
+        },
+        toBuy() {
+            this.$router.push('/purchase');
         }
     },
     mounted() {
@@ -155,8 +168,7 @@ export default {
     height: 100%;
 
     .utils {
-        flex-direction: column;
-        padding-top: 5vh;
+        padding-top: 6vw;
         background: linear-gradient(#5bc6a3, 70%, #e3f0e6);
 
 
@@ -309,7 +321,7 @@ export default {
 
         .banner {
             width: 90%;
-            background: url('../assets/banner1.png');
+            background: url('@/assets/banner1.png');
             background-size: cover;
             margin: 0 auto;
             margin-top: 5px;

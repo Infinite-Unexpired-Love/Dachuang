@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "927758",
+      "name": "ico-left-arrow",
+      "font_class": "ico-left-arrow",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
       "icon_id": "34605851",
       "name": "关怀模式",
       "font_class": "guanhuaimoshi",

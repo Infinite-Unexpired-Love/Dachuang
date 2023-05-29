@@ -2,16 +2,19 @@
     <div class="square">
         <div class="ball"></div>
         <div class="oval"></div>
-        <div class="content">{{ text }}</div>
+        <div class="content"><router-link :to="url">{{ text }}</router-link></div>
     </div>
 </template>
 
 <script>
+import router from '@/router';
 export default {
-    name: 'Square',
+    name: "Square",
     props: {
         text: String,
-    }
+        url: String,
+    },
+    components: { router }
 }
 </script>
 
@@ -45,7 +48,7 @@ export default {
     }
 
     .content {
-        color: #fff;
+        color: #fff !important;
         font-size: 16px;
         font-weight: 700;
         letter-spacing: 3px;
@@ -54,6 +57,10 @@ export default {
         margin: 0 auto;
         margin-top: 50%;
         transform: translateY(-50%);
+
+        a {
+            color: #fff !important;
+        }
     }
 }
 </style>
