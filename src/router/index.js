@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login/Login.vue'
+import Register from '../views/Register/Register.vue'
 import Home from '../views/Home/Home.vue'
 import Message from '../views/Message/Message.vue'
 import Ucenter from '../views/Ucenter/Ucenter.vue'
@@ -13,7 +14,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'Login',
     component: Login,
     meta: {
@@ -21,7 +22,15 @@ const routes = [
     }
   },
   {
-    path: '/home',
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      title: '注册'
+    }
+  },
+  {
+    path: '/',
     name: 'Home',
     component: Home,
     meta: {

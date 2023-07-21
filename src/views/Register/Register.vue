@@ -1,41 +1,60 @@
 <template>
     <div class="wrapper">
-        <h1 class="h1">登录</h1>
+        <h1 class="h1">注册</h1>
         <form action="" class="form">
             <InputComplex1 toggle="用户名" before="&#xe7d5;" id="uname"></InputComplex1>
             <InputComplex1 toggle="密码" before="&#xe7c0;" after="&#xe749;" id="upass" after_convert="1" inp_type="password">
             </InputComplex1>
+            <InputComplex1 toggle="参数a" before="&#xe60d;" id="a"></InputComplex1>
+            <InputComplex1 toggle="参数b" before="&#xe60d;" id="b"></InputComplex1>
+            <InputComplex1 toggle="功率下限" before="&#xe646;" id="low"></InputComplex1>
+            <InputComplex1 toggle="功率上限" before="&#xe725;" id="up"></InputComplex1>
         </form>
-        <button class="button" @click="check">登录</button>
-        <router-link to="/register" class="footer">没有账号？点我注册！</router-link>
+        <button class="button" @click="check">注册</button>
+        <router-link to="/login" class="footer">已有账号？点我登录！</router-link>
         <div class="popUp popUp-off" v-text="pop" ref="pop"></div>
     </div>
 </template>
 
 <script>
-import InputComplex1 from '@/components/inputComplex1.vue';
+import InputComplex1 from '@/components/inputComplex1'
 import { mapState } from 'vuex';
 export default {
-    name: 'Login',
+    name: 'Register',
     components: {
         InputComplex1
     },
     data() {
         return {
+            after_convert: {
+                convert() {
+                    this.eyeClose = !this.eyeClose;
+                    this.$refs.crush.blur();
+                    if (!this.eyeClose) {
+                        this.$refs.after.innerHTML = "&#xe621;";
+                    }
+                    else {
+                        this.$refs.after.innerHTML = "&#xe749;";
+                    }
+                }
+            },
             pop: "",
             lock: false,
             time_control: 3000
         }
     },
     computed: {
-        ...mapState(['login'])
+        ...mapState(['register'])
     },
     methods: {
         check() {
             if (this.lock)
                 return;
             this.lock = true;
-            if (!this.login.uname || !this.login.upass) {
+            if (!this.register.a || !this.register.b || !this.register.low || !this.register.up) {
+                this.pop = "请输入用户初始化数据";
+            }
+            if (!this.register.uname || !this.register.upass) {
                 this.pop = "请输入用户名或密码";
             }
             this.$refs.pop.classList.remove('popUp-off');
@@ -48,10 +67,11 @@ export default {
             return;
         }
     }
+
 }
 </script>
 
-<style scoped>
+<style>
 .wrapper {
     height: 100vh;
 }
@@ -66,14 +86,13 @@ export default {
 
 .form {
     width: 70%;
-    height: 18vh;
-    min-height: 140px;
+    height: 44vh;
+    min-height: 394px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-
 
 .button {
     display: block;
