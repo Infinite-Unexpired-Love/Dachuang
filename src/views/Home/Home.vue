@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper" ref="wrapper">
+        <div class="loading" style="height: 100vh;width: 100vw;position: absolute;z-index: 1;" v-if="loading">
+            <Loading></Loading>
+        </div>
         <div class="utils">
             <Header need-scan="1"></Header>
             <section class="row2">
@@ -35,17 +38,26 @@
             <div class="crush">
                 <div class="head iconfont">&nbsp;最佳匹配</div>
                 <div class="content">
-                    <Unit :effect="bestMatchDatas[0].effect" :remain="bestMatchDatas[0].remain"
-                        :price="bestMatchDatas[0].price" :unitStyle="unitStyle"></Unit>
+                    <!-- <Unit :effect="bestMatchDatas[0].effect" :remain="bestMatchDatas[0].remain"
+                        :price="bestMatchDatas[0].price" :unitStyle="unitStyle "></Unit>
                     <Unit :effect="bestMatchDatas[1].effect" :remain="bestMatchDatas[1].remain"
+                        :price="bestMatchDatas[1].price" :unitStyle="unitStyle"></Unit> -->
+                        <div @click="toBuy(0)">
+                            <Unit :effect="bestMatchDatas[0].effect" :remain="bestMatchDatas[0].remain"
+                        :price="bestMatchDatas[0].price" :unitStyle="unitStyle "></Unit>
+                        </div>
+                        <div @click="toBuy(1)">
+                            <Unit :effect="bestMatchDatas[1].effect" :remain="bestMatchDatas[1].remain"
                         :price="bestMatchDatas[1].price" :unitStyle="unitStyle"></Unit>
+                        </div>
                 </div>
             </div>
             <div class="stripe"></div>
         </div>
         <div class="wares">
             <ul style="display: flex;flex-wrap: wrap;justify-content: space-around;">
-                <li v-for="(item, index) in wareDatas[pageNum]" :key="index" style="margin-top: 10px;" @click="toBuy">
+                <li v-for="(item, index) in wareDatas[pageNum]" :key="index" style="margin-top: 10px;"
+                    @click="toBuy(index)">
                     <Unit :effect="item.effect" :remain="item.remain" :price="item.price" :unitStyle="unitStyle"></Unit>
                 </li>
             </ul>
@@ -53,6 +65,15 @@
         </div>
         <div style="width: 100%;height: 66px;"></div>
         <Footer seleted=1></Footer>
+        <!-- <Pop ref="pop"></Pop> -->
+        <van-overlay :show="show" @click="show = false">
+            <div class="mask">
+                <div class="block" >
+                    <div class="iconfont" style="font-size: 48px;padding: 12px 0 12px 0;">&#xe6c6;</div>
+                    <div v-text="content"/>
+                </div>
+            </div>
+        </van-overlay>
     </div>
 </template>
 
@@ -60,14 +81,26 @@
 import Header from '@/components/header.vue';
 import Footer from '@/components/footer.vue';
 import Unit from '@/components/unit.vue';
+import Loading from '@/components/loading.vue';
+import Pop from '@/components/pop.vue';
+import { Overlay } from 'vant';
+import { Home } from '../../api/Home'
 export default {
+    name: 'Home',
     components: {
         Header,
         Footer,
         Unit,
+        Loading,
+        Pop,
+        [Overlay.name]: Overlay,
     },
     data() {
         return {
+            show: false,
+            content: '',
+            userId: undefined,
+            loading: false,
             max: 0,
             min: -750,
             selected: 1,
@@ -131,11 +164,88 @@ export default {
         toggle(e) {
             this.selected = e.target.getAttribute('data-id');
         },
-        toBuy() {
-            this.$router.push('/purchase');
+        toBuy(index) {
+            //this.$router.push(`/purchase?offerId=${offerId}&state=1`);
+            this.$router.push({path:'/purchase',
+            query: 
+            {
+                offerId:this.wareDatas[this.pageNum][index].offerId,
+                state:1,
+                initPrice:this.wareDatas[this.pageNum][index].price,
+                initSum:this.wareDatas[this.pageNum][index].remain
+            }})
+        },
+        async handleInit() {
+            this.userId = localStorage.getItem('userId');
+            if (this.userId == undefined)
+                return new Promise((resolve, reject) => {
+                    //reject('没有授权');
+                    resolve('');
+                });
+            const http = new Home(this.userId);
+            const Authorization = await http.check()
+                .then(() => { return true; })
+                .catch(() => { return false; })
+            if (!Authorization)
+                return new Promise((resolve, reject) => {
+                    //reject('没有授权');
+                    resolve('');
+                });
+            else {
+                return new Promise((resolve, reject) => {
+                    http.init()
+                        .then(data => {
+                            resolve(data);
+                        })
+                        .catch(err => {
+                            resolve('');
+                        })
+                })
+            }
         }
     },
-    mounted() {
+    async mounted() {
+        let initErr = false;
+        await this.handleInit()
+            .then(res => {
+                if (res == '') {
+                    this.content = '网络错误，无法加载数据';
+                    this.show = true;
+                }
+                else {
+                    //this.$refs.pop.handlePop('加载数据中...');
+                    console.log(data);
+                    //初始化功率信息
+                    this.max = data[0].data.curUpperPn;
+                    this.min = data[0].data.curLowerPn;
+                    localStorage.setItem('publishId',data[0].data.publishId);
+                    //初始化销售品列表
+                    let wares = Array(this.perWares);
+                    for (let i = 0; i < this.perWares; i++) {
+                        wares.push({
+                            effect: data[1].data.totalFn,
+                            remain: data[1].data.initSum,
+                            price: data[1].data.initPrice,
+                            offerId: data[1].data.offerId
+                        })
+                    }
+                    wares.sort((a,b)=>{
+                        return b.effect-a.effect;
+                    })
+                    this.wareDatas = wares;
+                    const bestMatchDatas=[];
+                    bestMatchDatas.push(wares[0]);
+                    bestMatchDatas.push(wares[1]);
+                    this.bestMatchDatas=bestMatchDatas;
+                }
+            })
+            .catch(err => {
+                initErr = true;
+                this.$router.push('/login');
+            })
+        if (initErr) {
+            return
+        }
         this.bannerStyle.height = this.$refs.banner.clientWidth / 3.32 + 'px';
         //this.bannerStyle.backgroundSize=
         window.addEventListener('resize', () => {
@@ -254,7 +364,7 @@ export default {
                     width: 44px;
                     height: 16px;
                     position: absolute;
-                    z-index: 999;
+                    z-index: 1;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
@@ -394,6 +504,20 @@ export default {
         display: none !important;
         width: 0 !important;
     }
+
+    .mask {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        .block {
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+        }
+    }
+
 }
 
 .wrapper::-webkit-scrollbar {

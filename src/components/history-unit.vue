@@ -32,7 +32,7 @@ export default {
     justify-content: space-between;
     border-radius: 8px;
     background: #fff;
-    box-shadow: 0 -20px 36px 30px #2fccb1;
+    box-shadow: 0 0 36px 10px #2fccb1;
 
     .text {
         display: flex;

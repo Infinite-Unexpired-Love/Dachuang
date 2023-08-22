@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <div class="iconfont" :class="{ 'selected': seleted == 1 }"><router-link to="/home">&#xe867;</router-link></div>
+        <div class="iconfont" :class="{ 'selected': seleted == 1 }"><router-link to="/">&#xe867;</router-link></div>
         <div class="iconfont" :class="{ 'selected': seleted == 2 }"><router-link to="/message">&#xe635;</router-link></div>
         <div class="iconfont" :class="{ 'selected': seleted == 3 }"><router-link to="/post">&#xe666;</router-link></div>
         <div class="iconfont" :class="{ 'selected': seleted == 4 }"><router-link to="/ucenter">&#xe6a8;</router-link></div>

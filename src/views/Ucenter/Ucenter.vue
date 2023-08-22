@@ -36,16 +36,27 @@
         </div>
         <div style="width: 100%;height: 66px;background: transparent;"></div>
         <Footer seleted="4"></Footer>
+        <van-overlay :show="showErr" @click="showErr = false">
+            <div class="mask">
+                <div class="block">
+                    <div class="iconfont" style="font-size: 48px;padding: 12px 0 12px 0;">&#xe6c6;</div>
+                    <div v-html="err"></div>
+                </div>
+            </div>
+        </van-overlay>
     </div>
 </template>
 <script>
 import Square from "@/components/square.vue"
 import Footer from "@/components/footer.vue"
+import Account from "@/api/Account"
+import { Overlay } from "vant"
 export default {
     name: 'Ucenter',
     components: {
         Footer,
         Square,
+        [Overlay.name]:Overlay
     },
     data() {
         return {
@@ -53,7 +64,9 @@ export default {
                 headshotUrl: require('@/assets/headshot.png'),
                 uname: 'Seller1',
                 remainSum: 43,
-            }
+            },
+            showErr:false,
+            err: ''
         }
     },
     computed: {
@@ -65,6 +78,18 @@ export default {
         getWealth() {
             return '余额￥' + this.userInfo.remainSum;
         }
+    },
+    async mounted(){
+        const userId=localStorage.getItem('userId');
+        await Account.getAccount(userId)
+        .then(data=>{
+            this.userInfo.uname=data.data[0].username;
+            this.userInfo.remainSum=data.data[0].account;
+        })
+        .catch(()=>{
+            this.err='出错啦<br>网络错误...';
+            this.showErr=true;
+        })
     }
 }
 </script>
@@ -232,6 +257,19 @@ export default {
 
         .line5::before {
             content: "\e78c" !important;
+        }
+    }
+    .mask {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        .block {
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+
         }
     }
 }

@@ -2,14 +2,14 @@
     <section class="header">
         <div class="row1-before iconfont">
             <span v-if="needScan" @click="scanCode">&#xe840;</span>
-            <router-link :to="backUrl" v-if="!needScan">&#xe66f;</router-link>
+            <a href="javascript:;" @click="back" v-if="!needScan">&#xe66f;</a>
         </div>
         <div class="inp" v-if="!cancel">
             <input type="text" placeholder="请输入关键字" class="input">
             <div class="inp-after iconfont">&#xe741;</div>
         </div>
         <div class="row1-after iconfont">
-            <router-link to="home" v-if="needScan">&#xe601;</router-link>
+            <router-link to="/" v-if="needScan">&#xe601;</router-link>
             <div class="cancel" v-if="cancel">取消订单</div>
         </div>
     </section>
@@ -32,6 +32,9 @@ export default {
             this.$router.push({
                 path: '/scan'
             });
+        },
+        back(){
+            this.$router.go(-1);
         }
     }
 }

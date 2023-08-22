@@ -9,13 +9,13 @@
             <div class="main">
                 <h2>发布售电信息</h2>
                 <div class="inp">
-                    <label>价格</label><input type="text">
+                    <label>价格</label><input type="text" v-model="initPrice">
                 </div>
                 <div class="inp">
-                    <label>数量</label><input type="text">
+                    <label>数量</label><input type="text" v-model="initSum">
                 </div>
                 <div class="option">
-                    <span>看不见我</span><button>取消发布</button><button>确认发布</button>
+                    <span>看不见我</span><button>取消发布</button><button @click="showNext=true;">发布</button>
                 </div>
             </div>
         </div>
@@ -25,15 +25,78 @@
             <div class="ball2"></div>
         </div>
         <Footer seleted="3"></Footer>
+        <van-overlay :show="showNext" >
+            <div class="mask">
+                <div class="block" >
+                    <div class="iconfont" style="font-size: 48px;padding: 12px 0 12px 0;">&#xe620;</div>
+                    <div v-if="!showRes">
+                        <p>请确认您输入的数据无误</p>
+                        <div><strong v-text="getPrice"></strong><br><strong v-text="getSum"></strong></div>
+                        <div style="display: flex;justify-content: space-between;padding: 0 12px;margin-top: 24px;">
+                            <button @click="showNext=false;">取消</button>
+                            <button @click="handlePost">确认发布</button>
+                        </div>
+                    </div>
+                    <div v-if="showRes" v-html="res" @mouseenter="$router.push('/');"></div>
+                </div>
+            </div>
+        </van-overlay>
     </div>
 </template>
 
 <script>
 import Footer from "@/components/footer.vue"
+import Offer from "@/api/Offer";
+import { Overlay } from "vant";
 export default {
     name: 'Sell',
     components: {
         Footer,
+        [Overlay.name]:Overlay
+    },
+    data(){
+        return {
+            initPrice: '',
+            initSum : '',
+            showNext: false,
+            showRes: false,
+            res: ''
+        }
+    },
+    methods: {
+        handlePost(){
+            this.showRes=true;
+            this.res='请稍候...';
+            const userId=localStorage.getItem('userId');
+            const publishId = localStorage.getItem('publishId');
+            const data={
+                userId,
+                publishId,
+                initPrice:this.initPrice,
+                initSum:this.initSum
+            }
+            Offer.handlePost(JSON.stringify(data))
+            .then(res=>{
+                if(res.code==0)
+                    this.res='发布成功<br>点击返回首页';
+                else if(res.code==-1)
+                    this.res='发布失败<br>点击返回首页';
+                else
+                    this.res='未知错误<br>点击返回首页';
+
+            })
+            .catch(()=>{
+                this.res='网络错误<br>点击返回首页';
+            })
+        }
+    },
+    computed: {
+        getPrice(){
+            return '价格：'+this.initPrice;
+        },
+        getSum(){
+            return '数量：'+this.initSum;
+        }
     }
 }
 </script>
@@ -209,6 +272,30 @@ export default {
             background: linear-gradient(to left, #4fdea0, #3eca84);
             z-index: 2;
             opacity: .5;
+        }
+    }
+
+    .mask {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        .block {
+            width: 200px;
+            height: 200px;
+            background-color: #fff;
+
+            button {
+                display: inline-block;
+                height: 30px;
+                line-height: 30px;
+                border: 0;
+                border-radius: 8px;
+                padding: 0 4px;
+                color: #fcfafa;
+                background: #1dd5e6;
+            }
         }
     }
 }

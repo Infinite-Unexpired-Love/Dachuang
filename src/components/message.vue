@@ -39,6 +39,7 @@ export default {
     border-radius: 20px;
     box-shadow: 0 4px 12px #c2e6e5;
     display: flex;
+    margin-bottom: 20px;
 
     .info {
         width: 250px;

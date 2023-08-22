@@ -17,9 +17,13 @@
 <script>
 import { BrowserMultiFormatReader } from '@zxing/library';
 import { Dialog, Notify } from 'vant';
+import { NavBar } from 'vant';
 
 export default {
     name: 'scanCodePage',
+    components: {
+        [NavBar.name]:NavBar
+    },
     data() {
         return {
             loadingShow: false,

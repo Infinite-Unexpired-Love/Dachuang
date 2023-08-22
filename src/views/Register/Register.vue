@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper">
+        <div class="loading" style="height: 100vh;width: 100vw;position: absolute;z-index: 1;" v-if="loading">
+            <Loading></Loading>
+        </div>
         <h1 class="h1">注册</h1>
         <form action="" class="form">
             <InputComplex1 toggle="用户名" before="&#xe7d5;" id="uname"></InputComplex1>
@@ -10,37 +13,30 @@
             <InputComplex1 toggle="功率下限" before="&#xe646;" id="low"></InputComplex1>
             <InputComplex1 toggle="功率上限" before="&#xe725;" id="up"></InputComplex1>
         </form>
-        <button class="button" @click="check">注册</button>
+        <button class="button" @click="handleRegister">注册</button>
         <router-link to="/login" class="footer">已有账号？点我登录！</router-link>
-        <div class="popUp popUp-off" v-text="pop" ref="pop"></div>
+        <Pop :time_control="time_control" ref="pop"></Pop>
     </div>
 </template>
 
 <script>
 import InputComplex1 from '@/components/inputComplex1'
+import Loading from '@/components/loading.vue';
+import Pop from '@/components/pop.vue';
 import { mapState } from 'vuex';
+import {Register} from '../../api/Register'
 export default {
     name: 'Register',
     components: {
-        InputComplex1
+        InputComplex1,
+        Loading,
+        Pop
     },
     data() {
         return {
-            after_convert: {
-                convert() {
-                    this.eyeClose = !this.eyeClose;
-                    this.$refs.crush.blur();
-                    if (!this.eyeClose) {
-                        this.$refs.after.innerHTML = "&#xe621;";
-                    }
-                    else {
-                        this.$refs.after.innerHTML = "&#xe749;";
-                    }
-                }
-            },
-            pop: "",
             lock: false,
-            time_control: 3000
+            time_control: 3000,
+            loading:false
         }
     },
     computed: {
@@ -49,22 +45,42 @@ export default {
     methods: {
         check() {
             if (this.lock)
-                return;
+                return false;
             this.lock = true;
             if (!this.register.a || !this.register.b || !this.register.low || !this.register.up) {
-                this.pop = "请输入用户初始化数据";
+                this.$refs.pop.handlePop('请输入用户初始化数据',()=>{this.lock=false;});
+                return false;
             }
             if (!this.register.uname || !this.register.upass) {
-                this.pop = "请输入用户名或密码";
+                this.$refs.pop.handlePop('请输入用户名或密码',()=>{this.lock=false;});
+                return false;
             }
-            this.$refs.pop.classList.remove('popUp-off');
-            this.$refs.pop.classList.add('popUp-on');
-            setTimeout(() => {
-                this.$refs.pop.classList.remove('popUp-on');
-                this.$refs.pop.classList.add('popUp-off');
-                this.lock = false;
-            }, this.time_control);
-            return;
+            return true;
+        },
+        async handleRegister(){
+            this.loading=true;
+            if(!this.check()){
+                this.loading=false;
+                return;
+            }
+            this.lock=true;
+            let http=new Register(this.register.uname,this.register.upass,this.register.a,this.register.b,this.register.low,this.register.up);
+            let res=await http.handleRegister().then(data=>{return data;});
+            console.log(res);
+            console.log(http);
+            this.loading=false;
+            if(http.isErr){
+                this.$refs.pop.handlePop(res,()=>{this.lock=false;});
+            }
+            else{
+                if(res.code==0){
+                    localStorage.setItem('userId',res.data.userId);
+                    this.$refs.pop.handlePop('注册成功',()=>{this.lock=false;});
+                }
+                else{
+                    this.$refs.pop.handlePop('注册失败',()=>{this.lock=false;});
+                }
+            }
         }
     }
 
@@ -117,28 +133,5 @@ export default {
     color: #475d92;
 }
 
-.popUp {
-    position: absolute;
-    bottom: 20px;
-    left: 2vw;
-    width: 96vw;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 12px;
-    background: #555;
-    font-size: 16px;
-    text-align: left;
-    color: #fff;
-    transition: .2s;
-}
 
-.popUp-off {
-    opacity: 0;
-    transform: scale(0);
-}
-
-.popUp-on {
-    opacity: 1;
-    transform: scale(1);
-}
 </style>
